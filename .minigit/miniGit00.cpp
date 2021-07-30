@@ -1,7 +1,7 @@
 // implementation file
 #include <iostream>
 #include <fstream>
-#include "miniGitHeader.hpp"
+#include "miniGitDriver.hpp"
 #include <string>
 #include <vector>
 #include <fstream>
@@ -193,12 +193,15 @@ bool compareFiles(string file_name1, string file_name2) {
     // compare two files.. if any differences, return true.
     // first file is in main file, second file is in .minigit
 
+    cout << file_name1 << endl;
+    cout << file_name2 << endl;
 
     ifstream myfilemain;
     myfilemain.open(file_name1);
 
     ifstream myfilemini;
     myfilemini.open("./.minigit/" + file_name2);
+    cout << "B" << endl;
     string input_line;
     string input_line2;
     vector<string> file1_lines;
@@ -235,8 +238,6 @@ void miniGit::commitChanges(int cn) {
     vector<string> files_that_have_changed;
     // need to traverse through SLL
     while(crawler != nullptr) {
-        // There's a bug!!!!!! Because miniGit.hpp and miniGit.cpp are seen as the same file!
-
         // now, need to check if a file is in the .minigit repository
         // can traverse files in the repository now. Can check if any of them have the base name of the file
         // naming convention will be fileName_00
@@ -385,6 +386,7 @@ void miniGit::checkout(int checkout_num) {
 
     while(crawler != nullptr) {
         string file_name_to_load = crawler->fileName;
+        cout << file_name_to_load << endl;
         
         ofstream myfileout;
         myfileout.open("./" + file_name_to_load, std::ios_base::app);
@@ -415,3 +417,6 @@ void miniGit::checkout(int checkout_num) {
     }
 }
 
+
+
+//

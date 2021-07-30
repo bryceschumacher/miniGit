@@ -10,7 +10,7 @@
 #include <experimental/filesystem>
 using namespace std;
 #include <filesystem>
-#include "miniGitHeader.hpp"
+#include "miniGitDriver.hpp"
 #include <vector>
 
 
@@ -78,52 +78,49 @@ int main() {
                 {
                 if(commitNumber != mg1.getCheckedOutVersionNum()) {
                     cout << "Cannot add!!! Checked out number is not on current commit" << endl;
-                    cout << "To fix, choose option 4 and type " << commitNumber << endl;
                 }
-                else {
-                    // We need to get a valid file name that is in the current directory
-                    string file_name = "";
-                    bool file_name_invalid = true;
-                    while (file_name_invalid) {
-                        cout << "Enter a filename" << endl;
-                        getline(cin, file_name);
-                        bool is_in_direc = false;
-                        // we need to come up w/ alternative for this path bs
-                        for(auto& p: filesystem::directory_iterator("./")) {
-                            if("./" + file_name == p.path()) {
-                                is_in_direc = true;
-                            }
+                // We need to get a valid file name that is in the current directory
+                string file_name = "";
+                bool file_name_invalid = true;
+                while (file_name_invalid) {
+                    cout << "Enter a filename" << endl;
+                    getline(cin, file_name);
+                    bool is_in_direc = false;
+                    // we need to come up w/ alternative for this path bs
+                    for(auto& p: filesystem::directory_iterator("./")) {
+                        if("./" + file_name == p.path()) {
+                            is_in_direc = true;
                         }
-                        if(!is_in_direc) {
-                            cout << "file isn't in directory. Choose a different file" << endl;
-                            
-                        }
-                        else if (is_in_direc) {
-                            cout << "file is in directory!" << endl;
-                            file_name_invalid = false;
-
-                        }
+                    }
+                    if(!is_in_direc) {
+                        cout << "file isn't in directory. Choose a different file" << endl;
                         
                     }
-
-                    // now we have a file that was in the current directory. Need to check if it already exists in the current SLL corresponding to the DLL node we're on
-
-
-                    bool file_exists_already = mg1.fileExistsSLL(commitNumber, file_name);
-                    if(file_exists_already) {
-                        cout << "File is already in SLL" << endl;
-                    } 
-                    else {
-                        cout << "File was not in SLL. Adding to SLL" << endl;
-                        // at this point, we have located a file that is in the current repository. We have ensured that the file is not already in the current version's commit
-                        // adds to linked list
-
-
-                        mg1.SLLadd(commitNumber, file_name, 0);
-
-
+                    else if (is_in_direc) {
+                        cout << "file is in directory!" << endl;
+                        file_name_invalid = false;
 
                     }
+                    
+                }
+
+                // now we have a file that was in the current directory. Need to check if it already exists in the current SLL corresponding to the DLL node we're on
+
+
+                bool file_exists_already = mg1.fileExistsSLL(commitNumber, file_name);
+                if(file_exists_already) {
+                    cout << "File is already in SLL" << endl;
+                } 
+                else {
+                    cout << "File was not in SLL. Adding to SLL" << endl;
+                    // at this point, we have located a file that is in the current repository. We have ensured that the file is not already in the current version's commit
+                    // adds to linked list
+
+
+                    mg1.SLLadd(commitNumber, file_name, 0);
+
+
+
                 }
                 break;
                 }
@@ -133,22 +130,19 @@ int main() {
                 {
                 if(commitNumber != mg1.getCheckedOutVersionNum()) {
                     cout << "Cannot remove!!! Checked out number is not on current commit" << endl;
-                    cout << "To fix, choose option 4 and type " << commitNumber << endl;
+                }
+                string incoming_string = "";
+                cout << "What file would you like to remove?" << endl;
+                getline(cin, incoming_string);
+
+                bool file_in_repo = mg1.fileExistsSLL(commitNumber, incoming_string);
+                if(file_in_repo) {
+                    cout << "file in repo" << endl;
+                    mg1.deleteSLL(commitNumber, incoming_string);
+
                 }
                 else {
-                    string incoming_string = "";
-                    cout << "What file would you like to remove?" << endl;
-                    getline(cin, incoming_string);
-
-                    bool file_in_repo = mg1.fileExistsSLL(commitNumber, incoming_string);
-                    if(file_in_repo) {
-                        cout << "file in repo" << endl;
-                        mg1.deleteSLL(commitNumber, incoming_string);
-
-                    }
-                    else {
-                        cout << "file is not in repo" << endl;
-                    }
+                    cout << "file is not in repo" << endl;
                 }
                 break;
                 }
@@ -158,15 +152,12 @@ int main() {
                 if(commitNumber != mg1.getCheckedOutVersionNum()) {
                     cout << "Cannot commit!!! Checked out number is not on current commit" << endl;
                     // need to put in specific functionality so it actually doesn't let you do anything hah
-                    cout << "To fix, choose option 4 and type " << commitNumber << endl;
                 }
-                else {
 
                     mg1.commitChanges(commitNumber);
                     commitNumber++;
                     mg1.setCheckedOutVersionNum(commitNumber);
-
-                } 
+                    
                 break;
                 }
             // Corresponds to "checkout a specific version"

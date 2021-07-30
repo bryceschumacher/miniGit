@@ -1,7 +1,7 @@
 // Header File
 
-#ifndef MINIGIT_HPP
-#define MINIGIT_HPP
+#ifndef MINIGITHEADER_HPP
+#define MINIGITHEADER_HPP
 
 #include <string>
 using namespace std;
