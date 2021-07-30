@@ -1,7 +1,13 @@
 <h1>Welcome to miniGit</h1>
 1. Download miniGit Repo ZIP file. 
+
+
 2. Insert files into your favorite IDE
+
+
 3. Initiate project using "g++ -std=c++17 driver.cpp miniGit.cpp" in terminal/commandline
+
+
 4. Have multiple options:
 
 - Add files to current commit:
@@ -20,3 +26,5 @@
 
 - Print out all files commited and related version number
   More of a useful tool for understanding how the version control system works under the hood. Can also use to track which files have been commited to miniGit
+
+5. Can cancel the current miniGit instantiation using option 6: Quit. This will close the current instantiation of miniGit!!
